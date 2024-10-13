@@ -6,9 +6,8 @@ namespace ttcm_api.Services
     {
         public static List<ttcm_api.Models.Program> Programs = new List<ttcm_api.Models.Program>();
 
-        public Models.Program Update(int id, Models.Program newProgram)
+        public ttcm_api.Models.Program Update(int id, ttcm_api.Models.Program newProgram)
         {
-//#1 go to the programs list and get the resource
             var oldProgam = Programs.FirstOrDefault(p => p.Id == id);
             if (oldProgam != null)
             {
@@ -20,7 +19,6 @@ namespace ttcm_api.Services
 
         public bool Delete(int id)
         {
-            // #1 go to the programs list and get the resource
             var program = Programs.FirstOrDefault(p => p.Id == id);
             if (program != null)
             {
@@ -30,19 +28,21 @@ namespace ttcm_api.Services
             return false;
         }
 
-        IEnumerable<Models.Program> IProgramCRUD.GetAll()
+        IEnumerable<ttcm_api.Models.Program> IProgramCRUD.GetAll()
         {
             return Programs;
         }
+        // task1 get program by id 
+        public ttcm_api.Models.Program GetProgramById(int id)
+        {
+            return Programs.FirstOrDefault(p => p.Id == id);
+        }
+        // task1 get program by id 
 
-        Models.Program IProgramCRUD.Create(Models.Program p)
+        ttcm_api.Models.Program IProgramCRUD.Create(ttcm_api.Models.Program p)
         {
             Programs.Add(p);
-
             return p;
         }
-
-      
-
     }
 }

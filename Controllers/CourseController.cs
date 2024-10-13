@@ -1,42 +1,64 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ttcm_api.Models;
-
+using ttcm_api.Interfaces;
 namespace ttcm_api.Controllers
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
-
-
-    // /api/courses
-    [Route("api/courses")]
+    
+    [Route("api/v1/courses")]
     [ApiController]
     public class CourseController : ControllerBase
     {
-        public static List<Course> Courses = new List<Course>();
+        private readonly ICourseService _courseService;
 
-        [HttpGet]
-        public IActionResult GetCourses()
+        public CourseController(ICourseService courseService)
         {
-
-            return Ok(Courses);
+            _courseService = courseService;
         }
 
-        [HttpPost]
-        public IActionResult CreateCourse([FromBody] Course c)
+        [HttpGet]
+        public IActionResult GetAllCourses()
         {
-            Courses.Add(c);
-            return CreatedAtAction("CreateCourse", new { Id = c.Id} ,c);
+            return Ok(_courseService.GetAllCourses());
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetCourse(int id)
+        public IActionResult GetCourseById(int id)
         {
-            var foundCourse = Courses.FirstOrDefault(c => c.Id == id);
-            if(foundCourse == null)
-                return NotFound("Course Not Found!");
-            return Ok(foundCourse);
+            var course = _courseService.GetCourseById(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return Ok(course);
         }
 
+        [HttpPost]
+        public IActionResult CreateCourse([FromBody] Course course)
+        {
+            var createdCourse = _courseService.CreateCourse(course);
+            return CreatedAtAction(nameof(CreateCourse), new { id = createdCourse.Id }, createdCourse);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateCourse(int id, [FromBody] Course updatedCourse)
+        {
+            var course = _courseService.UpdateCourse(id, updatedCourse);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return Ok(course);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCourse(int id)
+        {
+            var isDeleted = _courseService.DeleteCourse(id);
+            if (!isDeleted)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
     }
-}

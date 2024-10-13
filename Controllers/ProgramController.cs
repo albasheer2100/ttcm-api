@@ -26,6 +26,18 @@ namespace ttcm_api.Controllers
             return Ok(_programsService.GetAll());
         }
 
+        // task1 get program by id
+        [HttpGet("{id}")]
+        public IActionResult GetProgramById(int id)
+        {
+            var program = _programsService.GetProgramById(id);
+            if (program == null)
+            {
+                return NotFound("Program not found");
+            }
+            return Ok(program);
+        }
+        // task1 get program by id
 
         [HttpPost]
         public IActionResult Create([FromBody] ttcm_api.Models.Program program)
