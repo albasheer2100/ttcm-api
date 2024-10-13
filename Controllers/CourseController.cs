@@ -4,14 +4,14 @@ using ttcm_api.Models;
 using ttcm_api.Interfaces;
 namespace ttcm_api.Controllers
 {
-    
+
     [Route("api/v1/courses")]
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private readonly ICourseService _courseService;
+        private readonly ICourseCRUD _courseService;
 
-        public CourseController(ICourseService courseService)
+        public CourseController(ICourseCRUD courseService)
         {
             _courseService = courseService;
         }
@@ -62,3 +62,4 @@ namespace ttcm_api.Controllers
             return NoContent();
         }
     }
+}

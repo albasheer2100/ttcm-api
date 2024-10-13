@@ -1,10 +1,21 @@
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.EntityFrameworkCore;
+using ttcm_api.Contexts;
 using ttcm_api.Interfaces;
 using ttcm_api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddDbContext<MainAppContext>(options =>
+{
+    options.UseSqlServer("Server=DESKTOP-C4QB4O5\\SQLEXPRESS;Database=ttcm;Trusted_Connection=True;TrustServerCertificate=True\r\n");
+});
+
+
+
 builder.Services.AddScoped<IProgramCRUD, ProgramsService>();
 builder.Services.AddScoped<IEnrollmentCRUD, EnrollmentService>();
 
