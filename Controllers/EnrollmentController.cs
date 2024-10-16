@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ttcm_api.Models;
 using ttcm_api.Interfaces;
-using ttcm_api.Models;
 
 namespace ttcm_api.Controllers
 {
